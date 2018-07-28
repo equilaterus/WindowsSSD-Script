@@ -28,4 +28,29 @@ function AskYesNo {
     return $Answer -eq 1
 }
 
-Export-ModuleMember -Function AskYesNo
+function GetLinkDescription {
+    param(
+        [Parameter(Mandatory=$true)][string] $OriginPath,
+        [Parameter(Mandatory=$true)][string] $DestinationPath
+    )
+
+    return $OriginPath + ' -> ' + $DestinationPath
+}
+
+function AskToCreateLink {
+    param(
+        [Parameter(Mandatory=$true)][string] $Message
+    )
+
+    return AskYesNo -Title $Message -Caption 'Would you like to create a symbolic link?' -Message $Message    
+}
+
+function StartTaskMessage {
+    Write-Output 'Attemping to execute requested task'
+}
+
+function SuccessMessage {
+    Write-Output 'Done'
+}
+
+Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskToCreateLink, StartTaskMessage, SuccessMessage
