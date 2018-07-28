@@ -1,7 +1,7 @@
 [CmdletBinding()]
 Param(
-    [Parameter(Mandatory=$True,Position=1)]
-    [char]$destinationUnitLetter='d'
+    [Parameter(Mandatory=$True,Position=1)][char] $DestinationUnitLetter='d',
+    [Parameter(Position=2)][bool] $CommandUI=$true
 )
 
 Import-Module .\CommandUI

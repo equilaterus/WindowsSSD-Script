@@ -5,16 +5,23 @@ function LinkFolder {
         [bool] $IgnoreExtraFiles = $false
     )
 
-    $PathExists = Test-Path -Path $DestinationPath
-    if (!$PathExists) {
-        New-Item -ItemType Directory -Force -Path $DestinationPath
+    # Create destination folder
+    $DestinationPathExists = Test-Path -Path $DestinationPath
+    if (!$DestinationPathExists) {
+        New-Item -ItemType Directory -Path $DestinationPath
     } elseif (!$IgnoreExtraFiles) {
         return $false
     }
 
-    Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath
-    Remove-Item -Path $OriginPath -Force
-    New-Item -Path $OriginPath  -ItemType SymbolicLink -Value $($DestinationPath)
+    # Move origin
+    $OriginPathExists = Test-Path -Path $OriginPath
+    if ($OriginPathExists) {
+        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath
+        Remove-Item -Path $OriginPath -Force
+    }
+
+    # Create link
+    New-Item -Path $OriginPath -ItemType SymbolicLink -Value $DestinationPath
     return $true
 }
 
@@ -25,6 +32,6 @@ function IsLinked {
 
     $File = Get-Item $Path -Force -ea SilentlyContinue
     return [bool]($File.Attributes -band [IO.FileAttributes]::ReparsePoint)
-  }
+}
 
 Export-ModuleMember -Function LinkFolder, IsLinked

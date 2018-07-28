@@ -15,12 +15,14 @@ function YesNo {
 
 function AskYesNo {
     param(
-        [Parameter(Mandatory=$true)][string] $Title,
         [Parameter(Mandatory=$true)][string] $Caption,
-        [Parameter(Mandatory=$true)][string] $Message
+        [Parameter(Mandatory=$true)][string] $Message,
+        [string] $Title = ''
     )
 
-    Write-Host $('  - ' + $Title + ' -  ') -ForegroundColor white -BackgroundColor blue
+    if ($Title -ne '') {
+        Write-Host $('  - ' + $Title + ' -  ') -ForegroundColor white -BackgroundColor blue
+    }
     $Options = YesNo
     $Answer = Prompt -Caption $Caption -Message $Message -Options $options
     return $Answer -eq 1
