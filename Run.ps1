@@ -3,4 +3,4 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit
 }
 
-& "$PSScriptRoot\Main.ps1"
+& "$PSScriptRoot\src\Main.ps1"
