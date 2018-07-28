@@ -12,8 +12,8 @@ function AssertSymbolicLink {
     Assert-MockCalled -ModuleName FolderLinks Remove-Item -ParameterFilter { $Path -eq $OriginPath } -Exactly 1
 }
 
-Describe "FolderLinks.LinkFolder Unit Tests" {
-    Context "When DestinationPath does not exist" {
+Describe 'FolderLinks.LinkFolder Unit Tests' {
+    Context 'When DestinationPath does not exist' {
         # Prepare
         Mock -ModuleName FolderLinks Test-Path { return $Path -eq $OriginPath }
         Mock -ModuleName FolderLinks Move-Item { } -Verifiable
@@ -24,11 +24,11 @@ Describe "FolderLinks.LinkFolder Unit Tests" {
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
         # Validate
-        It "returns true" {
+        It 'returns true' {
             $result | Should Be $true
         }
 
-        It "makes calls correctly" {
+        It 'makes calls correctly' {
             Assert-VerifiableMocks
             Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 2
             Assert-MockCalled -ModuleName FolderLinks New-Item -ParameterFilter {$Path -eq $DestinationPath } -Exactly 1
@@ -37,19 +37,19 @@ Describe "FolderLinks.LinkFolder Unit Tests" {
         }
     }
 
-    Context "When DestinationPath exists" {
+    Context 'When DestinationPath exists' {
         # Prepare
         Mock -ModuleName FolderLinks Test-Path { return $true }
 
         # Execute
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
-        It "returns false" {
+        It 'returns false' {
             $result | Should Be $false
         }
     }
 
-    Context "When DestinationPath exists but IgnoreExtraFiles is true" {
+    Context 'When DestinationPath exists but IgnoreExtraFiles is true' {
         # Prepare
         Mock -ModuleName FolderLinks Test-Path { return $true }
         Mock -ModuleName FolderLinks Move-Item { }  -Verifiable
@@ -60,11 +60,11 @@ Describe "FolderLinks.LinkFolder Unit Tests" {
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
 
         # Validate
-        It "returns true" {
+        It 'returns true' {
             $result | Should Be $true
         }
 
-        It "makes calls correctly" {
+        It 'makes calls correctly' {
             Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 1
 
             AssertSymbolicLink
@@ -72,8 +72,8 @@ Describe "FolderLinks.LinkFolder Unit Tests" {
     }
 }
 
-Describe "FolderLinks.IsLinked Unit Tests" {
-    Context "When normal file" {
+Describe 'FolderLinks.IsLinked Unit Tests' {
+    Context 'When normal file' {
         # Prepare
         Mock -ModuleName FolderLinks Get-Item { }
 
@@ -81,7 +81,7 @@ Describe "FolderLinks.IsLinked Unit Tests" {
         $result = IsLinked -Path $OriginPath
 
         # Validate
-        It "returns false" {
+        It 'returns false' {
             $result | Should Be $false
         }
     }
