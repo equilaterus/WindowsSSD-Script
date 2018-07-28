@@ -15,10 +15,19 @@ function LinkFolder {
 
     # Move origin
     $OriginPathExists = Test-Path -Path $OriginPath
-    if ($OriginPathExists) {
-        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath
-        Remove-Item -Path $OriginPath -Force
+    if (!$OriginPathExists) {
+        # Ensure subpath is created 
+        # (later on it removes last folder in the path)
+        New-Item -ItemType Directory -Path $OriginPath
+    } else {
+        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err
+        if ($err) {
+            return $false
+        }        
     }
+
+    # Remove empty folder
+    Remove-Item -Path $OriginPath -Force
 
     # Create link
     New-Item -Path $OriginPath -ItemType SymbolicLink -Value $DestinationPath
