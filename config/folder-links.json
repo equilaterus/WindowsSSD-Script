@@ -1,0 +1,12 @@
+[
+    {
+        "Description": "Windows Update",
+        "OriginPath": "%SYSTEMROOT%\\SoftwareDistribution\\", 
+        "DestinationPath": "System\\Windows\\SoftwareDistribution\\"
+    },
+    {
+        "Description": "Google Chrome",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
+        "DestinationPath": "System\\Google\\"
+    }
+]
