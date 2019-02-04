@@ -30,7 +30,7 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         }
 
         It 'makes calls correctly' {
-            Assert-VerifiableMocks
+            Assert-VerifiableMock
             Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 2
             Assert-MockCalled -ModuleName FolderLinks New-Item -ParameterFilter {$Path -eq $DestinationPath } -Exactly 1
 
