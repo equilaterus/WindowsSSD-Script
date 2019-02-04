@@ -131,7 +131,7 @@ Describe 'FolderLinks Functional Tests' {
         }        
     }
 
-    Context 'When DestionationPath does not exist' {
+    Context 'When DestinationPath does not exist' {
         # Prepare
         $CreateOrigin = $true
         $CreateDestination = $false
@@ -156,7 +156,7 @@ Describe 'FolderLinks Functional Tests' {
         }        
     }
 
-    Context 'When DestionationPath exist with no collision files or folders' {
+    Context 'When DestinationPath exist with no collision files or folders' {
         # Prepare
         $CreateOrigin = $true
         $CreateDestination = $true
@@ -181,7 +181,7 @@ Describe 'FolderLinks Functional Tests' {
         }        
     }
 
-    Context 'When DestionationPath exist with collision files and/or folders' {
+    Context 'When DestinationPath exist with collision files and/or folders' {
         # Prepare
         $CreateOrigin = $true
         $CreateDestination = $true
