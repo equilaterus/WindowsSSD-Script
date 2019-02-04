@@ -2,11 +2,15 @@
     {
         "Description": "Windows Update",
         "OriginPath": "%SYSTEMROOT%\\SoftwareDistribution\\", 
-        "DestinationPath": "System\\Windows\\SoftwareDistribution\\"
+        "DestinationPath": "System\\Windows\\SoftwareDistribution\\",
+        "StopServices": ["wuauserv"],
+        "StopProcesses": []
     },
     {
         "Description": "Google Chrome",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
-        "DestinationPath": "System\\Google\\"
+        "DestinationPath": "System\\Google\\",
+        "StopServices": [],
+        "StopProcesses": ["chrome"]
     }
 ]
