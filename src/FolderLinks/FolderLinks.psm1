@@ -20,7 +20,7 @@ function LinkFolder {
         # (later on it removes last folder in the path)
         New-Item -ItemType Directory -Path $OriginPath
     } else {
-        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err
+        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
         if ($err) {
             return $false
         }        
