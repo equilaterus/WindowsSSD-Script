@@ -21,18 +21,18 @@ function AskYesNo {
     )
 
     if ($Title -ne '') {
-        Write-Host $('  - ' + $Title + ' -  ') -ForegroundColor white -BackgroundColor blue
+        $null = Write-Host $('  - ' + $Title + ' -  ') -ForegroundColor white -BackgroundColor blue
     }
     $Options = YesNo
     $Answer = Prompt -Caption $Caption -Message $Message -Options $options
     return $Answer -eq 1
 }
 
-function LinkAlreadyExists {
+function SayLinkAlreadyExists {
     param(
         [Parameter(Mandatory=$true)][string] $Path
     )
-    Write-Host $('Link already exists for ' + $Path) -ForegroundColor white -BackgroundColor green
+    $null = Write-Host $('Link already exists for ' + $Path) -ForegroundColor white -BackgroundColor green
 }
 
 function GetLinkDescription {
@@ -44,7 +44,7 @@ function GetLinkDescription {
     return $OriginPath + ' -> ' + $DestinationPath
 }
 
-function AskToCreateLink {
+function AskCreateLink {
     param(
         [Parameter(Mandatory=$true)][string] $Message
     )
@@ -52,12 +52,12 @@ function AskToCreateLink {
     return AskYesNo -Title $Message -Caption 'Would you like to create a symbolic link?' -Message $Message    
 }
 
-function StartTaskMessage {
-    Write-Output 'Attemping to execute requested task'
+function SayStartTask {
+    $null = Write-Output 'Attemping to execute requested task'
 }
 
-function SuccessMessage {
-    Write-Output 'Done'
+function SaySuccess {
+    $null = Write-Output 'Done'
 }
 
-Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskToCreateLink, StartTaskMessage, SuccessMessage, LinkAlreadyExists
+Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskCreateLink, SayStartTask, SaySuccess, SayLinkAlreadyExists

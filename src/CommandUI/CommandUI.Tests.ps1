@@ -73,7 +73,7 @@ Describe 'CommandUI.AskYesNo Unit tests' {
 
         # Validate
         It 'write host is called' {
-            Assert-VerifiableMocks
+            Assert-VerifiableMock
             Assert-MockCalled -ModuleName CommandUI Write-Host -Exactly 1
         }
 
@@ -90,11 +90,11 @@ Describe 'CommandUI.Messages Unit tests' {
         Mock -ModuleName CommandUI AskYesNo { return 404 } -Verifiable
 
         # Execute
-        $result = AskToCreateLink -Message 'Random(?) message'
+        $result = AskCreateLink -Message 'Random(?) message'
 
         # Validate
         It 'AskYesNo is called' {
-            Assert-VerifiableMocks
+            Assert-VerifiableMock
             Assert-MockCalled -ModuleName CommandUI AskYesNo -Exactly 1 -ParameterFilter { $Message -eq 'Random(?) message'}
         }
 
@@ -113,29 +113,42 @@ Describe 'CommandUI.Messages Unit tests' {
         }
     }
 
-    Context 'When StartTaskMessage' {
+    Context 'When SayStartTask' {
         # Prepare
         Mock -ModuleName CommandUI Write-Output { } -Verifiable
 
         # Execute
-        StartTaskMessage
+        SayStartTask
 
         # Validate
         It 'write host called' {
-            Assert-VerifiableMocks
+            Assert-VerifiableMock
         }
     }
 
-    Context 'When SuccessMessage' {
+    Context 'When SaySuccess' {
         # Prepare
         Mock -ModuleName CommandUI Write-Output { } -Verifiable
 
         # Execute
-        StartTaskMessage
+        SaySuccess
 
         # Validate
         It 'write host called' {
-            Assert-VerifiableMocks
+            Assert-VerifiableMock
+        }
+    }
+
+    Context 'When SayLinkAlreadyExists' {
+        # Prepare
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
+
+        # Execute
+        SayLinkAlreadyExists -Path 'Any'
+
+        # Validate
+        It 'write host called' {
+            Assert-VerifiableMock
         }
     }
 }
