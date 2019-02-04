@@ -8,7 +8,7 @@ function LinkFolder {
     # Create destination folder
     $DestinationPathExists = Test-Path -Path $DestinationPath
     if (!$DestinationPathExists) {
-        New-Item -ItemType Directory -Path $DestinationPath
+        $null = New-Item -ItemType Directory -Path $DestinationPath
     } elseif (!$IgnoreExtraFiles) {
         return $false
     }
@@ -17,20 +17,23 @@ function LinkFolder {
     $OriginPathExists = Test-Path -Path $OriginPath
     if (!$OriginPathExists) {
         # Ensure subpath is created 
-        # (later on it removes last folder in the path)
-        New-Item -ItemType Directory -Path $OriginPath
+        # (later on, it removes last folder in the path and it will crash if it is not found)
+        $null = New-Item -ItemType Directory -Path $OriginPath
     } else {
-        Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
+        $null = Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
         if ($err) {
             return $false
         }        
     }
 
     # Remove empty folder
-    Remove-Item -Path $OriginPath -Force
+    $null = Remove-Item -Path $OriginPath -Force
 
     # Create link
-    New-Item -Path $OriginPath -ItemType SymbolicLink -Value $DestinationPath
+    $null = New-Item -Path $OriginPath -ItemType SymbolicLink -Value $DestinationPath -ErrorVariable +err -ErrorAction 0
+    if ($err) {
+        return $false
+    }      
     return $true
 }
 
