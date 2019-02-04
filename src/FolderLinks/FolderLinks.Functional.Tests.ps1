@@ -1,4 +1,5 @@
-Import-Module ./../src/FolderLinks
+Set-Location -Path $PSScriptRoot
+Import-Module ./FolderLinks
 
 # Paths including subpaths for harder test cases
 $OriginPath = 'TestDrive:\origin\origin\'

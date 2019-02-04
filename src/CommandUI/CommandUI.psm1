@@ -28,6 +28,13 @@ function AskYesNo {
     return $Answer -eq 1
 }
 
+function LinkAlreadyExists {
+    param(
+        [Parameter(Mandatory=$true)][string] $Path
+    )
+    Write-Host $('Link already exists for ' + $Path) -ForegroundColor white -BackgroundColor green
+}
+
 function GetLinkDescription {
     param(
         [Parameter(Mandatory=$true)][string] $OriginPath,
@@ -53,4 +60,4 @@ function SuccessMessage {
     Write-Output 'Done'
 }
 
-Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskToCreateLink, StartTaskMessage, SuccessMessage
+Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskToCreateLink, StartTaskMessage, SuccessMessage, LinkAlreadyExists

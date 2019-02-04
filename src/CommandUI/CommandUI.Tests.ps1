@@ -1,4 +1,5 @@
-Import-Module ./../src/CommandUI
+Set-Location -Path $PSScriptRoot
+Import-Module ./CommandUI
 
 Describe 'CommandUI.AskYesNo Unit tests' {
     Context 'When answers Yes' {

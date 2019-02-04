@@ -1,4 +1,5 @@
-Import-Module ./../src/FolderLinks
+Set-Location -Path $PSScriptRoot
+Import-Module ./FolderLinks
 
 $OriginPath = '.\TEMP\origin\'
 $DestinationPath = '.\TEMP\destination\'
