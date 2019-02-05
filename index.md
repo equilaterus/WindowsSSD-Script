@@ -14,6 +14,8 @@
   * Check whenever your symlinks are working correctly.
   * Customizable tasks.
   * Completely free and Open source.
+  
+![WindowsSSD-Script](https://equilaterus.github.io/WindowsSSD-Script/assets/img/windowsssd-script.png)
 
 ## Compatibility
 
