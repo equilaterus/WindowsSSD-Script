@@ -90,12 +90,12 @@ Describe 'CommandUI.Messages Unit tests' {
         Mock -ModuleName CommandUI AskYesNo { return 404 } -Verifiable
 
         # Execute
-        $result = AskCreateLink -Message 'Random(?) message'
+        $result = AskCreateLink -OriginPath 'Origin' -DestinationPath 'Destination'
 
         # Validate
         It 'AskYesNo is called' {
             Assert-VerifiableMock
-            Assert-MockCalled -ModuleName CommandUI AskYesNo -Exactly 1 -ParameterFilter { $Message -eq 'Random(?) message'}
+            Assert-MockCalled -ModuleName CommandUI AskYesNo -Exactly 1
         }
 
         It 'returns same as AskYesNo' {
@@ -103,22 +103,12 @@ Describe 'CommandUI.Messages Unit tests' {
         }
     }
 
-    Context 'When GetLinkDescription' {
-        # Execute
-        $result = GetLinkDescription -OriginPath 'o' -DestinationPath 'd'
-
-        # Validate
-        It 'returns a pre-formated message' {
-            $result | Should Be 'o -> d'
-        }
-    }
-
-    Context 'When SayStartTask' {
+    Context 'When SayTaskDescription' {
         # Prepare
-        Mock -ModuleName CommandUI Write-Output { } -Verifiable
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
 
         # Execute
-        SayStartTask
+        SayTaskDescription -Message 'A message'
 
         # Validate
         It 'write host called' {
@@ -128,7 +118,7 @@ Describe 'CommandUI.Messages Unit tests' {
 
     Context 'When SaySuccess' {
         # Prepare
-        Mock -ModuleName CommandUI Write-Output { } -Verifiable
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
 
         # Execute
         SaySuccess
@@ -144,7 +134,46 @@ Describe 'CommandUI.Messages Unit tests' {
         Mock -ModuleName CommandUI Write-Host { } -Verifiable
 
         # Execute
-        SayLinkAlreadyExists -Path 'Any'
+        SayLinkAlreadyExists -OriginPath 'Any' -DestinationPath 'AnyDestination'
+
+        # Validate
+        It 'write host called' {
+            Assert-VerifiableMock
+        }
+    }
+
+    Context 'When SayTaskDescription' {
+        # Prepare
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
+
+        # Execute
+        SayTaskDescription -Message 'Any'
+
+        # Validate
+        It 'write host called' {
+            Assert-VerifiableMock
+        }
+    }
+
+    Context 'When SayStep' {
+        # Prepare
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
+
+        # Execute
+        SayStep -Message 'Any'
+
+        # Validate
+        It 'write host called' {
+            Assert-VerifiableMock
+        }
+    }
+
+    Context 'When SayAlert' {
+        # Prepare
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
+
+        # Execute
+        SayAlert -Message 'Any'
 
         # Validate
         It 'write host called' {

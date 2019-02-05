@@ -30,34 +30,53 @@ function AskYesNo {
 
 function SayLinkAlreadyExists {
     param(
-        [Parameter(Mandatory=$true)][string] $Path
-    )
-    $null = Write-Host $('Link already exists for ' + $Path) -ForegroundColor white -BackgroundColor green
-}
-
-function GetLinkDescription {
-    param(
         [Parameter(Mandatory=$true)][string] $OriginPath,
         [Parameter(Mandatory=$true)][string] $DestinationPath
     )
-
-    return $OriginPath + ' -> ' + $DestinationPath
+    $null = Write-Host $('  Link already exists ') -ForegroundColor white -BackgroundColor green
+    $null = Write-Host $('  ' + $OriginPath + ' -> ' + $DestinationPath)
+    $null = Write-Host $('  ')
 }
 
 function AskCreateLink {
     param(
-        [Parameter(Mandatory=$true)][string] $Message
+        [Parameter(Mandatory=$true)][string] $OriginPath,
+        [Parameter(Mandatory=$true)][string] $DestinationPath
     )
-
-    return AskYesNo -Title $Message -Caption 'Would you like to create a symbolic link?' -Message $Message    
+    $Message = $('  ' + $OriginPath + ' ->' + $DestinationPath)
+    return AskYesNo -Caption '  Would you like to create a symbolic link? ' -Message $Message     
 }
 
-function SayStartTask {
-    $null = Write-Output 'Attemping to execute requested task'
+function SayTaskDescription {
+    param(
+        [Parameter(Mandatory=$true)][string] $Message
+    )
+    $null = Write-Host $('  ')
+    $null = Write-Host $('  ')
+    $null = Write-Host $('  Task                          ') -ForegroundColor black -BackgroundColor white
+    $null = Write-Host $('  ' + $Message)
+    $null = Write-Host $('  ')
+}
+
+function SayStep {
+    param(
+        [Parameter(Mandatory=$true)][string] $Message
+    )
+    $null = Write-Host $('  - Attemping to ' + $Message)
+}
+
+function SayAlert {
+    param(
+        [Parameter(Mandatory=$true)][string] $Message
+    )
+    $null = Write-Host $('  - Alert: ' + $Message) -ForegroundColor yellow
+    $null = Write-Host $('  - Trying to continue... ') -ForegroundColor yellow
+    $null = Write-Host $('  ')
 }
 
 function SaySuccess {
-    $null = Write-Output 'Done'
+    $null = Write-Host '  - Success'
+    $null = Write-Host $('  ')
 }
 
-Export-ModuleMember -Function AskYesNo, GetLinkDescription, AskCreateLink, SayStartTask, SaySuccess, SayLinkAlreadyExists
+Export-ModuleMember -Function AskYesNo, AskCreateLink, SayStartTask, SaySuccess, SayLinkAlreadyExists, SayTaskDescription, SayStep, SayAlert
