@@ -9,7 +9,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 | **Branch**      | Build status | Version |
 | --------------- |:-------------:| -----:|
 | **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.0.1  |
-| **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/devs) | 0.1.0-unreleased    |
+| **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/dev) | 0.1.0-unreleased    |
 
 ## Supported tasks
 
