@@ -46,4 +46,11 @@ function IsLinked {
     return [bool]($File.Attributes -band [IO.FileAttributes]::ReparsePoint)
 }
 
-Export-ModuleMember -Function LinkFolder, IsLinked
+function GetLinkFor {
+    param(    
+        [Parameter(Mandatory=$true)][string] $Path
+    )
+    return Get-Item $Path | Select-Object -ExpandProperty Target
+}
+
+Export-ModuleMember -Function LinkFolder, IsLinked, GetLinkFor

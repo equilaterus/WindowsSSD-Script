@@ -4,6 +4,7 @@ Import-Module ./FolderLinks
 # Paths including subpaths for harder test cases
 $OriginPath = 'TestDrive:\origin\origin\'
 $DestinationPath = 'TestDrive:\destination\destination\'
+$DestinationEnding = '\destination\destination\'
 
 $OriginFiles = @('file1.txt', 'folder\file2.txt', 'folder\folder\file3.txt')
 $DestinationFiles = @('dest1.txt', 'dest\dest2.txt', 'dest\dest\dest3.txt')
@@ -80,6 +81,16 @@ function ClearSymlink {
     (Get-Item $OriginPath).Delete()
 }
 
+function ValidateSymlink {
+    param (
+        [string] $Path
+    )
+
+    IsLinked -Path $OriginPath | Should Be $true
+    $result = GetLinkFor -Path $OriginPath 
+    $result.endsWith($DestinationEnding) | Should be $true
+}
+
 Describe 'FolderLinks Functional Tests' {
     Context 'When no OriginPath or DestinationPath exist' {
         # Prepare
@@ -101,7 +112,7 @@ Describe 'FolderLinks Functional Tests' {
         }
 
         It 'creates a symlink' {
-            IsLinked -Path $OriginPath | Should Be $true
+            ValidateSymlink -Path $OriginPath
             ClearSymlink
         }        
     }
@@ -126,7 +137,7 @@ Describe 'FolderLinks Functional Tests' {
         }
 
         It 'creates a symlink' {
-            IsLinked -Path $OriginPath | Should Be $true
+            ValidateSymlink -Path $OriginPath
             ClearSymlink
         }        
     }
@@ -151,7 +162,7 @@ Describe 'FolderLinks Functional Tests' {
         }
 
         It 'creates a symlink' {
-            IsLinked -Path $OriginPath | Should Be $true
+            ValidateSymlink -Path $OriginPath
             ClearSymlink
         }        
     }
@@ -176,7 +187,7 @@ Describe 'FolderLinks Functional Tests' {
         }
         
         It 'creates a symlink' {
-            IsLinked -Path $OriginPath | Should Be $true
+            ValidateSymlink -Path $OriginPath
             ClearSymlink
         }        
     }
