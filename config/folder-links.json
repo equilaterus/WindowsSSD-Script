@@ -12,5 +12,12 @@
         "DestinationPath": "System\\Google\\",
         "StopServices": [],
         "StopProcesses": ["chrome"]
+    },
+    {
+        "Description": "Firefox",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Mozilla\\",
+        "DestinationPath": "System\\Mozilla\\",
+        "StopServices": [],
+        "StopProcesses": ["firefox"]
     }
 ]
