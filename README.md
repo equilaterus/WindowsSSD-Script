@@ -1,21 +1,37 @@
 # WindowsSSD-Script
+
 Powershell scripts to automate symbolic link generation for SSD units on Windows. 
 
 **Fast and easily!** Move your files and applications from your main SSD disk to another HDD unit.
 
+## Builds
+
+| **Branch**      | Build status | Version |
+| --------------- |:-------------:| -----:|
+| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.0.1  |
+| **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/devs) | 0.1.0-unreleased    |
+
 ## Supported tasks
 
-* Move Windows Update folder.
-* Move Google Chrome data.
+* Migrate Windows Update folder.
+* Migrate Google Chrome data.
+* Migrate Firefox data.
 
-## How to use
+## Downloads
 
-Download, extract and open **src** folder, inside it you will find a file called **Run.ps1**, right click on it and choose **Run with Powershell** it will ask you for elevated permissions as it needs to be executed as an *administrator user*.
+* Download source code from: [GitHub Releases](https://github.com/equilaterus/WindowsSSD-Script/releases)
 
-## Tested OS
+## How to use it
 
-* Windows 10
-* Proceed with caution on other versions of Windows.
+Download, extract and execute **Run.ps1** by pressing right click on it and choosing **Run with Powershell**.
+
+ **Note**: WindowsSSD-Script will ask you for elevated permissions because it needs to be executed as an *administrator user*.
+
+## Compatibility
+
+* Tested on **Windows 10**
+* Proceed with caution on Windows 7/8.
+* Windows XP/Vista not supported
 
 ## FAQ
 
