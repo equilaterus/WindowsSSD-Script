@@ -4,6 +4,8 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 **Fast and easily!** Move your files and applications from your main SSD disk to another HDD unit.
 
+[Official Website](https://equilaterus.github.io/WindowsSSD-Script/)
+
 ## Builds
 
 | **Branch**      | Build status | Current version |
