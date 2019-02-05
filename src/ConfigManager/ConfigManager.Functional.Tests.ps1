@@ -3,9 +3,6 @@ Import-Module ./ConfigManager
 
 $DestinationPath = '../../config/folder-links.json'
 
-# Do not throw error for JSON parsing
-$errorActionPreference = 0
-
 Describe 'ConfigManager.LoadTasksFromFile Functional tests' {
     Context 'When Path Exists' {
         # Execute
