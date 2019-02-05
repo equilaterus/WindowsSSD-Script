@@ -4,4 +4,11 @@ install:
 build: false
 
 test_script:
-- ps: .\build\RunCover.ps1
+   - ps: |
+        $testResultsFile = '.\TestsResults.xml'
+        $files = Get-ChildItem .\..\src -File -Recurse -Include * -Exclude *.Tests.*
+        $res = Invoke-Pester .\src -OutputFormat NUnitXml -OutputFile $testResultsFile -PassThru -CodeCoverage $files
+        (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsFile))
+        if ($res.FailedCount -gt 0) { 
+            throw "$($res.FailedCount) tests failed."
+        }
