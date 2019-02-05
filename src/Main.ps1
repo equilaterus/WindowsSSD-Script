@@ -1,26 +1,61 @@
 [CmdletBinding()]
 Param(
-    [Parameter(Mandatory=$True,Position=1)][char] $DestinationUnitLetter='d',
-    [Parameter(Position=2)][bool] $CommandUI=$true
+    [Parameter(Mandatory=$True,Position=1)][char] $DestinationUnitLetter = 'd',
+    [Parameter(Position=2)][string] $ConfigPath = '../config/',
+    [Parameter(Position=2)][bool] $CommandUI = $true
 )
 
-Import-Module .\CommandUI
-Import-Module .\FolderLinks
+# Default settings
+Set-Location -Path $PSScriptRoot
+$errorActionPreference = 'Stop'
 
-function AskCreateLink ($OriginPath, $DestinationPath) {
-    $msg = $originPath + " -> " + $destinationPath
-    if (!(AskYesNo -Title $msg -Caption 'Would you like to create a symbolic link?' -Message $msg)) {
-        return
-    }
+# Imports
+Import-Module ./CommandUI
+Import-Module ./FolderLinks
+Import-Module ./ConfigManager
 
-    Write-Output $('Attemping to create a Symbolic link from ' + $msg)
-    LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
-    Write-Output 'Done!'
+# Main function
+$sysDestPath = $($DestinationUnitLetter + ':\')
+$tasks = LoadTasksFromFile -Path '../config/folder-links.json'
+if ($task -eq $false) {
+    Throw 'Bad or missing configuration file'
 }
 
-$errorActionPreference = 'Stop'
-$sysDestPath = $destinationUnitLetter + ':\System\'
+foreach ($task in $tasks) {
+    SayTaskDescription -Message $task.Description
 
-Stop-Service -Name 'wuauserv'
-AskCreateLink -originPath $($Env:SystemRoot + '\SoftwareDistribution\') -DestinationPath $($sysDestPath + 'Windows\SoftwareDistribution')
-AskCreateLink -originPath $($Env:USERPROFILE + '\AppData\Local\Google\') -DestinationPath $($sysDestPath + 'Google')
+    foreach($service in $task.StopServices) {
+        SayStep -Message $('stop ' + $service)
+        Stop-Service -Name $service -Force -ErrorAction 0 -ErrorVariable +err
+        if ($err) {
+            SayAlert -Message $err
+        } else {
+            SaySuccess
+        }
+    }
+
+    foreach($process in $task.StopProcesses) {
+        SayStep -Message $('stop ' + $process)
+        Stop-Process -Name $process -Force -ErrorAction 0 -ErrorVariable +err
+        if ($err) {
+            SayAlert -Message 'We cannot stop the process'
+        } else {
+            SaySuccess
+        }
+    }
+
+    $originPath = [Environment]::ExpandEnvironmentVariables($task.OriginPath)    
+    if (IsLinked -Path $originPath) {
+        $destinationPath = GetLinkFor -Path $originPath
+        SayLinkAlreadyExists -OriginPath $originPath -DestinationPath $destinationPath
+    } else {
+        $destinationPath = $($sysDestPath + [Environment]::ExpandEnvironmentVariables($task.DestinationPath))
+        if(AskCreateLink -OriginPath $originPath -DestinationPath $destinationPath) {
+            if(LinkFolder -OriginPath $originPath -DestinationPath $destinationPath) {
+                SaySuccess
+            } else {
+                Write-Error '  - Error creating the folder. Check that the detination folder is empty.'
+            }
+        }
+    }
+}
