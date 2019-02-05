@@ -1,1 +1,4 @@
+title: WindowsSSD-Script
+description: Powershell scripts to automate symbolic link generation for SSD units on Windows.
 theme: jekyll-theme-tactile
+show_downloads: true
