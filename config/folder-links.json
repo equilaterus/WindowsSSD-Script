@@ -1,0 +1,23 @@
+[
+    {
+        "Description": "Windows Update",
+        "OriginPath": "%SYSTEMROOT%\\SoftwareDistribution\\", 
+        "DestinationPath": "System\\Windows\\SoftwareDistribution\\",
+        "StopServices": ["wuauserv"],
+        "StopProcesses": []
+    },
+    {
+        "Description": "Google Chrome",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
+        "DestinationPath": "System\\Google\\",
+        "StopServices": [],
+        "StopProcesses": ["chrome"]
+    },
+    {
+        "Description": "Firefox",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Mozilla\\",
+        "DestinationPath": "System\\Mozilla\\",
+        "StopServices": [],
+        "StopProcesses": ["firefox"]
+    }
+]
