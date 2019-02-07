@@ -19,5 +19,12 @@
         "DestinationPath": "System\\Mozilla\\",
         "StopServices": [],
         "StopProcesses": ["firefox"]
+    },
+    {
+        "Description": "Spotify",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Spotify\\",
+        "DestinationPath": "System\\Spotify\\",
+        "StopServices": [],
+        "StopProcesses": ["spotify"]
     }
 ]
