@@ -22,3 +22,7 @@
 * Tested on **Windows 10**
 * Proceed with caution on Windows 7/8.
 * Windows XP/Vista not supported
+
+## Project Roadmap
+
+* See planned [GitHub Projects](https://github.com/equilaterus/WindowsSSD-Script/projects)
