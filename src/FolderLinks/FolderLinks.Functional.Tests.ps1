@@ -100,6 +100,10 @@ function ValidateSymlink {
     $result.endsWith($EndingPath) | Should be $true
 }
 
+function ClearLink {
+    (Get-Item $OriginPath).Delete()
+}
+
 Describe 'FolderLinks\LinkFolder - Functional Tests' {
     Context 'When no OriginPath or DestinationPath exist' {
         # Prepare
@@ -123,7 +127,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding            
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink          
         }        
     }
 
@@ -149,7 +154,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding       
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink     
         }        
     }
 
@@ -175,7 +181,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding         
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink       
         }        
     }
 
@@ -219,7 +226,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }
         
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding           
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding  
+            ClearLink       
         }        
     }
 
@@ -281,7 +289,8 @@ Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding      
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink    
         }        
     }
 
@@ -311,7 +320,8 @@ Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding      
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink    
         }        
     }
 
