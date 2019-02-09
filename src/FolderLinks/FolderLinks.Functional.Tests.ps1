@@ -100,6 +100,8 @@ function ValidateSymlink {
     $result.endsWith($EndingPath) | Should be $true
 }
 
+# This must be executed before Pester Test
+# tears down to avoid errors on CI build
 function ClearLink {
     (Get-Item $OriginPath).Delete()
 }
