@@ -121,7 +121,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produce valid files' {
@@ -148,7 +148,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produces valid files' {
@@ -175,7 +175,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produces valid files' {
@@ -202,7 +202,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns false' {
-            $result | Should Be $false
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $true
         }       
     }
 
@@ -220,7 +221,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produces valid files' {
@@ -247,7 +248,8 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
 
         # Validate
         It 'returns false' {
-            $result | Should Be $false
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $false
         }
 
         It 'keeps all files' {
@@ -283,7 +285,7 @@ Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produces valid files' {
@@ -314,7 +316,7 @@ Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produces valid files' {
@@ -341,7 +343,8 @@ Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
 
         # Validate
         It 'returns false' {
-            $result | Should Be $false
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $false
         }
         
         It 'does not create a symlink' {

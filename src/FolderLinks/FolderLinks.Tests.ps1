@@ -44,8 +44,8 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
         # Validate
-        It 'returns true' {
-            $result | Should Be $true
+        It 'returns success' {
+            $result.Error | Should Be $false
         }
 
         It 'makes calls correctly' {
@@ -64,8 +64,9 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         # Execute
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
-        It 'returns false' {
-            $result | Should Be $false
+        It 'returns DestinationFolderExists error' {
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $true
         }
     }
 
@@ -80,8 +81,8 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
 
         # Validate
-        It 'returns true' {
-            $result | Should Be $true
+        It 'returns Success' {
+            $result.Error | Should Be $false
         }
 
         It 'makes calls correctly' {
@@ -101,14 +102,14 @@ Describe 'FolderLinks.ReLinkFolder Unit Tests' {
         Mock -ModuleName FolderLinks GetLinkFor { return 'LinkedPath\' } -Verifiable
         Mock -ModuleName FolderLinks Move-Item { } -Verifiable -ParameterFilter { $Path -eq 'LinkedPath\*' -and $Destination -eq  $DestinationPath }
         GetItemMocked
-        Mock -ModuleName FolderLinks LinkFolder { return $true } -Verifiable -ParameterFilter { $OriginPath -eq $OriginPath -and $DestinationPath -eq $DestinationPath }
+        Mock -ModuleName FolderLinks LinkFolder { return [PsCustomObject]@{ Error = $false; } } -Verifiable -ParameterFilter { $OriginPath -eq $OriginPath -and $DestinationPath -eq $DestinationPath }
 
         # Execute
         $result = ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
         # Validate
-        It 'returns true' {
-            $result | Should Be $true
+        It 'returns Success' {
+            $result.Error | Should Be $false
         }
 
         It 'makes calls correctly' {
@@ -130,14 +131,14 @@ Describe 'FolderLinks.ReLinkFolder Unit Tests' {
         Mock -ModuleName FolderLinks GetLinkFor { return 'LinkedPath\' } -Verifiable
         Mock -ModuleName FolderLinks Move-Item { } -Verifiable -ParameterFilter { $Path -eq 'LinkedPath\*' -and $Destination -eq  $DestinationPath }
         GetItemMocked
-        Mock -ModuleName FolderLinks LinkFolder { return $true } -Verifiable -ParameterFilter { $OriginPath -eq $OriginPath -and $DestinationPath -eq $DestinationPath }
+        Mock -ModuleName FolderLinks LinkFolder { return [PsCustomObject]@{ Error = $false; } } -Verifiable -ParameterFilter { $OriginPath -eq $OriginPath -and $DestinationPath -eq $DestinationPath }
 
         # Execute
         $result = ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
         # Validate
-        It 'returns true' {
-            $result | Should Be $true
+        It 'returns Success' {
+            $result.Error | Should Be $false
         }
 
         It 'makes calls correctly' {
@@ -159,8 +160,9 @@ Describe 'FolderLinks.ReLinkFolder Unit Tests' {
         $result = ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
 
         # Validate
-        It 'returns false' {
-            $result | Should Be $false
+        It 'returns NoSymlink error' {
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $false
         }
 
         It 'makes calls correctly' {

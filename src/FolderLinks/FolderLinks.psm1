@@ -1,3 +1,5 @@
+Import-Module ./FolderLinkResults.ps1
+
 function LinkFolder {
     param(
         [Parameter(Mandatory=$true)][string] $OriginPath,
@@ -9,8 +11,8 @@ function LinkFolder {
         # Create destination folder
         $null = New-Item -ItemType Directory -Path $DestinationPath
     } elseif (!$IgnoreExtraFiles) {
-        # If exists -> ensure IgnoreExtraFiles is true
-        return $false;
+        # If exists -> ensure IgnoreExtraFiles must be true
+        return $FolderLinkResults.DestinationFolderExists
     }
 
     if (!(Test-Path -Path $OriginPath)) {
@@ -22,7 +24,7 @@ function LinkFolder {
         # Move origin
         $null = Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
         if ($err) {
-            return $false
+            return $FolderLinkResults.UnableToMoveOrigin;
         }
     }
 
@@ -32,9 +34,9 @@ function LinkFolder {
     # Create link
     $null = New-Item -Path $OriginPath -ItemType SymbolicLink -Value $DestinationPath -ErrorVariable +err -ErrorAction 0
     if ($err) {
-        return $false
-    }      
-    return $true
+        return $FolderLinkResults.SymlinkError
+    }
+    return $FolderLinkResults.Success
 }
 
 function IsLinked {
@@ -53,7 +55,7 @@ function ReLinkFolder {
     )
 
     if (!(IsLinked -Path $OriginPath)) {
-        return $false
+        return $FolderLinkResults.NoSymlink
     }
 
     # Create destination path if necessary
@@ -64,7 +66,7 @@ function ReLinkFolder {
     $currentFolder = GetLinkFor -Path $OriginPath
     $null = Move-Item -Path $($currentFolder + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
     if ($err) {       
-        return $false
+        return $FolderLinkResults.UnableToMoveOrigin;
     }   
 
     # Re-create link
