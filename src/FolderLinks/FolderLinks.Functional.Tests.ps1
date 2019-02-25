@@ -6,6 +6,9 @@ $OriginPath = 'TestDrive:\origin\origin\'
 $DestinationPath = 'TestDrive:\destination\destination\'
 $DestinationEnding = '\destination\destination\'
 
+$DestinationPathTwo = 'TestDrive:\destinationtwo\destination\'
+$DestinationEndingTwo = '\destinationtwo\destination\'
+
 $OriginFiles = @('file1.txt', 'folder\file2.txt', 'folder\folder\file3.txt')
 $DestinationFiles = @('dest1.txt', 'dest\dest2.txt', 'dest\dest\dest3.txt')
 $FileContent = 'Nevermind'
@@ -67,7 +70,6 @@ function ValidateResultingFiles {
     if ($CreateDestination -and !$RepeatFiles) {
         $TotalFiles += $DestinationFiles.Count
     }
-
     $ResultingFiles = @(Get-ChildItem $DestinationPath -Recurse -Attributes !Directory)
     $ResultingFiles.Count | Should Be $TotalFiles
 
@@ -77,23 +79,38 @@ function ValidateResultingFiles {
     }
 }
 
-function ClearSymlink {
-    (Get-Item $OriginPath).Delete()
+function PreRequisites {
+    if (Test-Path $OriginPath) {
+        throw 'OriginPath path was not deleted'
+    }
+
+    if (Test-Path $DestinationPath) {
+        throw 'Destination path was not deleted'
+    }
 }
 
 function ValidateSymlink {
     param (
-        [string] $Path
+        [string] $Path,
+        [string] $EndingPath
     )
 
     IsLinked -Path $OriginPath | Should Be $true
     $result = GetLinkFor -Path $OriginPath 
-    $result.endsWith($DestinationEnding) | Should be $true
+    $result.endsWith($EndingPath) | Should be $true
 }
 
-Describe 'FolderLinks Functional Tests' {
+# This must be executed before Pester Test
+# tears down to avoid errors on CI build
+function ClearLink {
+    (Get-Item $OriginPath).Delete()
+}
+
+Describe 'FolderLinks\LinkFolder - Functional Tests' {
     Context 'When no OriginPath or DestinationPath exist' {
         # Prepare
+        PreRequisites
+
         $CreateOrigin = $false
         $CreateDestination = $false
         $RepeatFiles = $false
@@ -104,7 +121,7 @@ Describe 'FolderLinks Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
         It 'produce valid files' {
@@ -112,13 +129,15 @@ Describe 'FolderLinks Functional Tests' {
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath
-            ClearSymlink
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink          
         }        
     }
 
     Context 'When OriginPath does not exist' {
         # Prepare
+        PreRequisites
+
         $CreateOrigin = $false
         $CreateDestination = $true
         $RepeatFiles = $false
@@ -129,21 +148,23 @@ Describe 'FolderLinks Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
-        It 'produce valid files' {
+        It 'produces valid files' {
             ValidateResultingFiles -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath
-            ClearSymlink
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink     
         }        
     }
 
     Context 'When DestinationPath does not exist' {
         # Prepare
+        PreRequisites
+        
         $CreateOrigin = $true
         $CreateDestination = $false
         $RepeatFiles = $false
@@ -154,21 +175,42 @@ Describe 'FolderLinks Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
-        It 'produce valid files' {
+        It 'produces valid files' {
             ValidateResultingFiles -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
         }
 
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath
-            ClearSymlink
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink       
         }        
     }
 
-    Context 'When DestinationPath exist with no collision files or folders' {
+    Context 'When DestinationPath exists but no IgnoreExtraFiles flag was sent' {
         # Prepare
+        PreRequisites
+
+        $CreateOrigin = $true
+        $CreateDestination = $true
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+        
+        # Execute
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
+
+        # Validate
+        It 'returns false' {
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $true
+        }       
+    }
+
+    Context 'When DestinationPath exists with no collision files or folders' {
+        # Prepare
+        PreRequisites
+
         $CreateOrigin = $true
         $CreateDestination = $true
         $RepeatFiles = $false
@@ -179,21 +221,23 @@ Describe 'FolderLinks Functional Tests' {
 
         # Validate
         It 'returns true' {
-            $result | Should Be $true
+            $result.Error | Should Be $false
         }
 
-        It 'produce valid files' {
+        It 'produces valid files' {
             ValidateResultingFiles -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
         }
         
         It 'creates a symlink' {
-            ValidateSymlink -Path $OriginPath
-            ClearSymlink
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding  
+            ClearLink       
         }        
     }
 
-    Context 'When DestinationPath exist with collision files and/or folders' {
+    Context 'When DestinationPath exists with collision files and/or folders' {
         # Prepare
+        PreRequisites
+
         $CreateOrigin = $true
         $CreateDestination = $true
         $RepeatFiles = $true
@@ -204,7 +248,8 @@ Describe 'FolderLinks Functional Tests' {
 
         # Validate
         It 'returns false' {
-            $result | Should Be $false
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $false
         }
 
         It 'keeps all files' {
@@ -215,7 +260,94 @@ Describe 'FolderLinks Functional Tests' {
             $ResultingFiles.Count | Should Be $DestinationFiles.Count
         }
         
-        It 'does not creates a symlink' {
+        It 'does not create a symlink' {
+            IsLinked -Path $OriginPath | Should Be $false
+        }
+    }
+}
+
+Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
+    Context 'When Link exists and It contains files' {
+        # Prepare
+        PreRequisites
+        
+        $CreateOrigin = $true
+        $CreateDestination = $false
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+
+        # Create a symlink to DestinationPathTwo
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPathTwo
+        ValidateSymlink -Path $OriginPath -EndingPath $DestinationEndingTwo
+
+        # Execute
+        ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
+
+        # Validate
+        It 'returns true' {
+            $result.Error | Should Be $false
+        }
+
+        It 'produces valid files' {
+            ValidateResultingFiles -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+        }
+
+        It 'creates a symlink' {
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink    
+        }        
+    }
+
+    Context 'When Link exists but is is empty' {
+        # Prepare
+        PreRequisites
+        
+        $CreateOrigin = $false
+        $CreateDestination = $false
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+
+        # Create a symlink to DestinationPathTwo
+        LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPathTwo
+        ValidateSymlink -Path $OriginPath -EndingPath $DestinationEndingTwo
+
+        # Execute
+        $result = ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
+
+        # Validate
+        It 'returns true' {
+            $result.Error | Should Be $false
+        }
+
+        It 'produces valid files' {
+            ValidateResultingFiles -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+        }
+
+        It 'creates a symlink' {
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink    
+        }        
+    }
+
+    Context 'When Link does not exist' {
+        # Prepare
+        PreRequisites
+        
+        $CreateOrigin = $false
+        $CreateDestination = $false
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles       
+
+        # Execute
+        $result = ReLinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath
+
+        # Validate
+        It 'returns false' {
+            $result.Error | Should Be $true
+            $result.CanRetry | Should Be $false
+        }
+        
+        It 'does not create a symlink' {
             IsLinked -Path $OriginPath | Should Be $false
         }
     }
