@@ -4,9 +4,11 @@
 
 ## Supported tasks
 
-  * Migrate Windows Updates folder.
+  * Migrate Windows Update folder.
+  * Migrate Brave Browser data.
   * Migrate Google Chrome data.
   * Migrate Firefox data.
+  * Migrate Spotify data.
 
 ## SSD administration made easy
 
