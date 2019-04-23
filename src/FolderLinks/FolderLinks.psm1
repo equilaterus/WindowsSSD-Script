@@ -1,4 +1,4 @@
-Import-Module ./FolderLinkResults.ps1
+Import-Module $PSScriptRoot/FolderLinkResults.ps1
 
 function LinkFolder {
     param(
