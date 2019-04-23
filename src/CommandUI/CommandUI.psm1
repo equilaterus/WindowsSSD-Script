@@ -33,9 +33,9 @@ function SayLinkAlreadyExists {
         [Parameter(Mandatory=$true)][string] $OriginPath,
         [Parameter(Mandatory=$true)][string] $DestinationPath
     )
-    $null = Write-Host $('  Link already exists ') -ForegroundColor white -BackgroundColor green
-    $null = Write-Host $('  ' + $OriginPath + ' -> ' + $DestinationPath)
-    $null = Write-Host $('  ')
+    Write-Host $('  Link already exists ') -ForegroundColor white -BackgroundColor green
+    Write-Host $('  ' + $OriginPath + ' -> ' + $DestinationPath)
+    Write-Host $('  ')
 }
 
 function AskCreateLink {
@@ -51,32 +51,53 @@ function SayTaskDescription {
     param(
         [Parameter(Mandatory=$true)][string] $Message
     )
-    $null = Write-Host $('  ')
-    $null = Write-Host $('  ')
-    $null = Write-Host $('  Task                          ') -ForegroundColor black -BackgroundColor white
-    $null = Write-Host $('  ' + $Message)
-    $null = Write-Host $('  ')
+    Write-Host $('  ')
+    Write-Host $('  ')
+    Write-Host $('  Task                          ') -ForegroundColor black -BackgroundColor white
+    Write-Host $('  ' + $Message)
+    Write-Host $('  ')
 }
 
 function SayStep {
     param(
         [Parameter(Mandatory=$true)][string] $Message
     )
-    $null = Write-Host $('  - Attemping to ' + $Message)
+    Write-Host $('  - Attemping to ' + $Message)
 }
 
 function SayAlert {
     param(
         [Parameter(Mandatory=$true)][string] $Message
     )
-    $null = Write-Host $('  - Alert: ' + $Message) -ForegroundColor yellow
-    $null = Write-Host $('  - Trying to continue... ') -ForegroundColor yellow
-    $null = Write-Host $('  ')
+    Write-Host $('  - Alert: ' + $Message) -ForegroundColor yellow
+    Write-Host $('  - Trying to continue... ') -ForegroundColor yellow
+    Write-Host $('  ')
 }
 
 function SaySuccess {
-    $null = Write-Host '  - Success'
-    $null = Write-Host $('  ')
+    Write-Host '  - Success'
+    Write-Host $('  ')
 }
 
-Export-ModuleMember -Function AskYesNo, AskCreateLink, SayStartTask, SaySuccess, SayLinkAlreadyExists, SayTaskDescription, SayStep, SayAlert
+function Print {
+    param(
+        [Parameter(Mandatory=$true)][string] $Format,
+        [Parameter(Mandatory=$false)][array] $Values,
+        [Parameter(Mandatory=$false)][string] $ForegroundColor,
+        [Parameter(Mandatory=$false)][string] $BackgroundColor
+    )
+    $outputString = ''
+    $formatArray = $Format.ToCharArray();
+    $j = 0    
+    for ($i=0; $i -lt $Format.length; $i++){
+        if ($formatArray[$i] -eq '`') {
+            $outputString = $($outputString+$Values[$j++])
+        }
+        else {
+            $outputString = $($outputString+$formatArray[$i])
+        }
+    }
+    Write-Host $($outputString) -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
+}
+
+Export-ModuleMember -Function AskYesNo, AskCreateLink, SayStartTask, SaySuccess, SayLinkAlreadyExists, SayTaskDescription, SayStep, SayAlert, Print

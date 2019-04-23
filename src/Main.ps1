@@ -51,7 +51,8 @@ foreach ($task in $tasks) {
     } else {
         $destinationPath = $($sysDestPath + [Environment]::ExpandEnvironmentVariables($task.DestinationPath))
         if(AskCreateLink -OriginPath $originPath -DestinationPath $destinationPath) {
-            if(LinkFolder -OriginPath $originPath -DestinationPath $destinationPath) {
+            $result = LinkFolder -OriginPath $originPath -DestinationPath $destinationPath
+            if(!$result.Error) {
                 SaySuccess
             } else {
                 Write-Error '  - Error creating the folder. Check that the detination folder is empty.'

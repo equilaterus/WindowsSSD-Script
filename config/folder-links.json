@@ -7,6 +7,13 @@
         "StopProcesses": []
     },
     {
+        "Description": "Brave Browser",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\BraveSoftware\\",
+        "DestinationPath": "System\\Brave\\",
+        "StopServices": [],
+        "StopProcesses": ["brave"]
+    },
+    {
         "Description": "Google Chrome",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
         "DestinationPath": "System\\Google\\",
@@ -19,5 +26,12 @@
         "DestinationPath": "System\\Mozilla\\",
         "StopServices": [],
         "StopProcesses": ["firefox"]
+    },
+    {
+        "Description": "Spotify",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Spotify\\",
+        "DestinationPath": "System\\Spotify\\",
+        "StopServices": [],
+        "StopProcesses": ["spotify"]
     }
 ]
