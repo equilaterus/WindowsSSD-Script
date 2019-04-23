@@ -1,23 +1,25 @@
 # WindowsSSD-Script
 
+[Official Website](https://equilaterus.github.io/WindowsSSD-Script/)
+
 Powershell scripts to automate symbolic link generation for SSD units on Windows. 
 
 **Fast and easily!** Move your files and applications from your main SSD disk to another HDD unit.
-
-[Official Website](https://equilaterus.github.io/WindowsSSD-Script/)
 
 ## Builds
 
 | **Branch**      | Build status | Current version |
 | --------------- |:-------------:| -----:|
-| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.0  |
+| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.1  |
 | **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/dev) | 0.2.0-unreleased    |
 
 ## Supported tasks
 
 * Migrate Windows Update folder.
+* Migrate Brave Browser data.
 * Migrate Google Chrome data.
 * Migrate Firefox data.
+* Migrate Spotify data.
 
 ## Downloads
 
