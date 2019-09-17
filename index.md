@@ -8,6 +8,7 @@
   * Migrate Brave Browser data.
   * Migrate Google Chrome data.
   * Migrate Firefox data.
+  * Migrate Opera data.
   * Migrate Spotify data.
 
 ## SSD administration made easy
