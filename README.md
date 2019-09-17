@@ -10,7 +10,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 | **Branch**      | Build status | Current version |
 | --------------- |:-------------:| -----:|
-| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.1  |
+| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.2  |
 | **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/dev) | 0.2.0-unreleased    |
 
 ## Supported tasks
@@ -19,6 +19,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 * Migrate Brave Browser data.
 * Migrate Google Chrome data.
 * Migrate Firefox data.
+* Migrate Opera data.
 * Migrate Spotify data.
 
 ## Downloads
