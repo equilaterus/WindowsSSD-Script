@@ -28,6 +28,13 @@
         "StopProcesses": ["firefox"]
     },
     {
+        "Description": "Opera",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Opera Software\\",
+        "DestinationPath": "System\\Opera\\",
+        "StopServices": [],
+        "StopProcesses": ["opera"]
+    },
+    {
         "Description": "Spotify",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Spotify\\",
         "DestinationPath": "System\\Spotify\\",
