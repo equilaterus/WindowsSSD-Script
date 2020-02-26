@@ -10,7 +10,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 | **Branch**      | Build status | Current version |
 | --------------- |:-------------:| -----:|
-| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.2  |
+| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.3  |
 | **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/dev) | 0.2.0-unreleased    |
 
 ## Supported tasks
@@ -28,7 +28,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 ## How to use it
 
-Download, extract and execute **Run.ps1** by pressing right click on it and choosing **Run with Powershell**.
+Download, extract and execute **Run.bat**.
 
  **Note**: WindowsSSD-Script will ask you for elevated permissions because it needs to be executed as an *administrator user*.
 
@@ -39,10 +39,6 @@ Download, extract and execute **Run.ps1** by pressing right click on it and choo
 * Windows XP/Vista not supported
 
 ## FAQ
-
-* **I can't see Run With Powershell option**: I'm trying to run the program but I can't see the option to run it with Powershell.
-
-    **Solution**: Right click on **Run.ps1** and select **open with...** option,set it back to the default option of **Notepad** (selecting *always open ps1 files with this application*).
 
 *  **Error code 0x80070011**: I'm trying to install **.Net 3.5** but I'm getting the following error: *"The system cannot move the file to a different disk drive"*.
 
