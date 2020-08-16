@@ -14,6 +14,13 @@
         "StopProcesses": ["brave"]
     },
     {
+        "Description": "Edge Chromium Browser",
+        "OriginPath": "%USERPROFILE%\\AppData\\Local\\Microsoft\\Edge\\User Data\\",
+        "DestinationPath": "System\\MicrosoftEdge\\",
+        "StopServices": [],
+        "StopProcesses": ["msedge"]
+    },
+    {
         "Description": "Google Chrome",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
         "DestinationPath": "System\\Google\\",
