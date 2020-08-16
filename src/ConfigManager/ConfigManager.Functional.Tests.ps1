@@ -9,8 +9,8 @@ Describe 'ConfigManager.LoadTasksFromFile Functional tests' {
         $result = LoadTasksFromFile -Path $DestinationPath
 
         # Validate
-        It 'returns 6 tasks' {
-            $result.Length | Should Be 6       
+        It 'returns 7 tasks' {
+            $result.Length | Should Be 7       
         }
     }
 
