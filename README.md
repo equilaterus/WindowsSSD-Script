@@ -35,9 +35,10 @@ Download, extract and execute **Run.bat**.
 
 ## Compatibility
 
-* Tested on **Windows 10**
+* Tested on **Windows 10**.
 * Proceed with caution on Windows 7/8.
-* Windows XP/Vista not supported
+* Windows XP/Vista not supported.
+* *Collections* may stop working on Edge Chromium. Save a backup of your collection links before using this tool.
 
 ## FAQ
 
