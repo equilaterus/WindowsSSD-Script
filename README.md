@@ -17,6 +17,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 * Migrate Windows Update folder.
 * Migrate Brave Browser data.
+* Migrate Edge Chromium data.
 * Migrate Google Chrome data.
 * Migrate Firefox data.
 * Migrate Opera data.
