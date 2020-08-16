@@ -6,6 +6,7 @@
 
   * Migrate Windows Update folder.
   * Migrate Brave Browser data.
+  * Migrate Edge Chromium data.
   * Migrate Google Chrome data.
   * Migrate Firefox data.
   * Migrate Opera data.
