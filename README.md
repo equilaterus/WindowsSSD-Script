@@ -10,7 +10,7 @@ Powershell scripts to automate symbolic link generation for SSD units on Windows
 
 | **Branch**      | Build status | Current version |
 | --------------- |:-------------:| -----:|
-| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.3  |
+| **Master**        | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/master?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/master) | 0.1.4  |
 | **Dev-unstable**  | [![Build Status](https://ci.appveyor.com/api/projects/status/rxn77j64dn3s50r8/branch/dev?svg=true)](https://ci.appveyor.com/project/dacanizares/windowsssd-script/branch/dev) | 0.2.0-unreleased    |
 
 ## Supported tasks
@@ -35,9 +35,10 @@ Download, extract and execute **Run.bat**.
 
 ## Compatibility
 
-* Tested on **Windows 10**
+* Tested on **Windows 10**.
 * Proceed with caution on Windows 7/8.
-* Windows XP/Vista not supported
+* Windows XP/Vista not supported.
+* *Collections* may stop working on Edge Chromium. Save a backup of your collection links before using this tool.
 
 ## FAQ
 
