@@ -4,48 +4,55 @@
         "OriginPath": "%SYSTEMROOT%\\SoftwareDistribution\\", 
         "DestinationPath": "System\\Windows\\SoftwareDistribution\\",
         "StopServices": ["wuauserv"],
-        "StopProcesses": []
+        "StopProcesses": [],
+        "DeleteOriginFiles": true
     },
     {
         "Description": "Brave Browser",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\BraveSoftware\\",
         "DestinationPath": "System\\Brave\\",
         "StopServices": [],
-        "StopProcesses": ["brave"]
+        "StopProcesses": ["brave"],
+        "DeleteOriginFiles": false
     },
     {
         "Description": "Edge Chromium Browser",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Microsoft\\Edge\\User Data\\",
         "DestinationPath": "System\\MicrosoftEdge\\",
         "StopServices": [],
-        "StopProcesses": ["msedge"]
+        "StopProcesses": ["msedge"],
+        "DeleteOriginFiles": false
     },
     {
         "Description": "Google Chrome",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Google\\",
         "DestinationPath": "System\\Google\\",
         "StopServices": [],
-        "StopProcesses": ["chrome"]
+        "StopProcesses": ["chrome"],
+        "DeleteOriginFiles": false
     },
     {
         "Description": "Firefox",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Mozilla\\",
         "DestinationPath": "System\\Mozilla\\",
         "StopServices": [],
-        "StopProcesses": ["firefox"]
+        "StopProcesses": ["firefox"],
+        "DeleteOriginFiles": false
     },
     {
         "Description": "Opera",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Opera Software\\",
         "DestinationPath": "System\\Opera\\",
         "StopServices": [],
-        "StopProcesses": ["opera"]
+        "StopProcesses": ["opera"],
+        "DeleteOriginFiles": false
     },
     {
         "Description": "Spotify",
         "OriginPath": "%USERPROFILE%\\AppData\\Local\\Spotify\\",
         "DestinationPath": "System\\Spotify\\",
         "StopServices": [],
-        "StopProcesses": ["spotify"]
+        "StopProcesses": ["spotify"],
+        "DeleteOriginFiles": false
     }
 ]

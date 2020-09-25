@@ -144,7 +144,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
 
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns true' {
@@ -188,7 +188,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }        
     }
 
-    Context 'When DestinationPath exists but no IgnoreExtraFiles flag was sent' {
+    Context 'When DestinationPath exists but no IgnoreExtraFilesOnDestination flag was sent' {
         # Prepare
         PreRequisites
 
@@ -217,7 +217,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
         
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns true' {
@@ -244,7 +244,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
 
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns false' {
@@ -263,6 +263,34 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         It 'does not create a symlink' {
             IsLinked -Path $OriginPath | Should Be $false
         }
+    }
+
+    Context 'When DestinationPath does not exist and DeleteOriginFiles is true' {
+        # Prepare
+        PreRequisites
+        
+        $CreateOrigin = $true
+        $CreateDestination = $false
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+
+        # Execute
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -DeleteOriginFiles $true
+
+        # Validate
+        It 'returns true' {
+            $result.Error | Should Be $false
+        }
+
+        It 'produces valid files' {
+            # Validate as if no -CreateOrigin was made
+            ValidateResultingFiles -CreateOrigin $false -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+        }
+
+        It 'creates a symlink' {
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink       
+        }        
     }
 }
 

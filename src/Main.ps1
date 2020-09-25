@@ -22,7 +22,7 @@ if ($task -eq $false) {
 }
 
 foreach ($task in $tasks) {
-    SayTaskDescription -Message $task.Description
+    SayTaskDescription -Message $task.Description -DeleteOriginFiles $task.DeleteOriginFiles
 
     foreach($service in $task.StopServices) {
         SayStep -Message $('stop ' + $service)
@@ -51,11 +51,12 @@ foreach ($task in $tasks) {
     } else {
         $destinationPath = $($sysDestPath + [Environment]::ExpandEnvironmentVariables($task.DestinationPath))
         if(AskCreateLink -OriginPath $originPath -DestinationPath $destinationPath) {
-            $result = LinkFolder -OriginPath $originPath -DestinationPath $destinationPath
+            $result = LinkFolder -OriginPath $originPath -DestinationPath $destinationPath -DeleteOriginFiles $task.DeleteOriginFiles
             if(!$result.Error) {
                 SaySuccess
             } else {
-                Write-Error '  - Error creating the folder. Check that the detination folder is empty.'
+                Write-Error $result.Message
+                Write-Error 'Check that the detination folder is empty.'
             }
         }
     }

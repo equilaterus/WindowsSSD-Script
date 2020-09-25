@@ -28,6 +28,11 @@ $FolderLinkResults = [PsCustomObject]@{
         CanRetry = $false;
         Message = 'We cannot move origin folder. Close all application or move it manually.';
     };
+    UnableToDeleteOrigin = [PsCustomObject]@{
+        Error = $true;
+        CanRetry = $false;
+        Message = 'We cannot delete origin folder. Close all application or delete it manually.';
+    };
 };
 
 Export-ModuleMember -Variable $FolderLinkResults
