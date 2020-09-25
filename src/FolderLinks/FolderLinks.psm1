@@ -4,14 +4,14 @@ function LinkFolder {
     param(
         [Parameter(Mandatory=$true)][string] $OriginPath,
         [Parameter(Mandatory=$true)][string] $DestinationPath,
-        [bool] $IgnoreExtraFiles = $false
+        [bool] $IgnoreExtraFilesOnDestination = $false
     )
 
     if (!(Test-Path -Path $DestinationPath)) {
         # Create destination folder
         $null = New-Item -ItemType Directory -Path $DestinationPath
-    } elseif (!$IgnoreExtraFiles) {
-        # If exists -> ensure IgnoreExtraFiles must be true
+    } elseif (!$IgnoreExtraFilesOnDestination) {
+        # If exists -> ensure IgnoreExtraFilesOnDestination must be true
         return $FolderLinkResults.DestinationFolderExists
     }
 
@@ -71,7 +71,7 @@ function ReLinkFolder {
 
     # Re-create link
     $null = (Get-Item $OriginPath).Delete()
-    return LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+    return LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 }
 
 function GetLinkFor {

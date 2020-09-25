@@ -70,7 +70,7 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         }
     }
 
-    Context 'When DestinationPath exists but IgnoreExtraFiles is true' {
+    Context 'When DestinationPath exists but IgnoreExtraFilesOnDestination is true' {
         # Prepare
         Mock -ModuleName FolderLinks Test-Path { return $true }
         Mock -ModuleName FolderLinks Move-Item { }  -Verifiable
@@ -78,7 +78,7 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
         Mock -ModuleName FolderLinks New-Item { } -Verifiable -ParameterFilter{ $Path -eq $DestinationPath -or $Path -eq $OriginPath}
 
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns Success' {

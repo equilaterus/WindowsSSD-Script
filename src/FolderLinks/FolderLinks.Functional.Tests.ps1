@@ -144,7 +144,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
 
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns true' {
@@ -188,7 +188,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         }        
     }
 
-    Context 'When DestinationPath exists but no IgnoreExtraFiles flag was sent' {
+    Context 'When DestinationPath exists but no IgnoreExtraFilesOnDestination flag was sent' {
         # Prepare
         PreRequisites
 
@@ -217,7 +217,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
         
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns true' {
@@ -244,7 +244,7 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
         SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
 
         # Execute
-        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFiles $true
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -IgnoreExtraFilesOnDestination $true
 
         # Validate
         It 'returns false' {
