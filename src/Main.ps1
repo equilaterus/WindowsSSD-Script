@@ -55,7 +55,8 @@ foreach ($task in $tasks) {
             if(!$result.Error) {
                 SaySuccess
             } else {
-                Write-Error '  - Error creating the folder. Check that the detination folder is empty.'
+                Write-Error $result.Message
+                Write-Error 'Check that the detination folder is empty.'
             }
         }
     }
