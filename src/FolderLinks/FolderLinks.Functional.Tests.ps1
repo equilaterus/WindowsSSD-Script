@@ -264,6 +264,34 @@ Describe 'FolderLinks\LinkFolder - Functional Tests' {
             IsLinked -Path $OriginPath | Should Be $false
         }
     }
+
+    Context 'When DestinationPath does not exist and DeleteOriginFiles is true' {
+        # Prepare
+        PreRequisites
+        
+        $CreateOrigin = $true
+        $CreateDestination = $false
+        $RepeatFiles = $false
+        SeedData -CreateOrigin $CreateOrigin -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+
+        # Execute
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -DeleteOriginFiles $true
+
+        # Validate
+        It 'returns true' {
+            $result.Error | Should Be $false
+        }
+
+        It 'produces valid files' {
+            # Validate as if no -CreateOrigin was made
+            ValidateResultingFiles -CreateOrigin $false -CreateDestination $CreateDestination -RepeatFiles $RepeatFiles
+        }
+
+        It 'creates a symlink' {
+            ValidateSymlink -Path $OriginPath -EndingPath $DestinationEnding
+            ClearLink       
+        }        
+    }
 }
 
 Describe 'FolderLinks\ReLinkFolder - Functional Tests' {
