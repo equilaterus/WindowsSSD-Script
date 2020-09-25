@@ -4,7 +4,8 @@ function LinkFolder {
     param(
         [Parameter(Mandatory=$true)][string] $OriginPath,
         [Parameter(Mandatory=$true)][string] $DestinationPath,
-        [bool] $IgnoreExtraFilesOnDestination = $false
+        [bool] $IgnoreExtraFilesOnDestination = $false,
+        [bool] $DeleteOriginFiles = $false
     )
 
     if (!(Test-Path -Path $DestinationPath)) {
@@ -16,15 +17,24 @@ function LinkFolder {
     }
 
     if (!(Test-Path -Path $OriginPath)) {
-        # Ensure subpath is created 
+        # Ensure subpath exists
         # (later on, it removes last folder in the path and it will crash if it is not found)
         $null = New-Item -ItemType Directory -Path $OriginPath
     } else {
-        
-        # Move origin
-        $null = Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
-        if ($err) {
-            return $FolderLinkResults.UnableToMoveOrigin;
+        if (!$DeleteOriginFiles) {
+            # Move origin
+            $null = Move-Item -Path $($OriginPath + '*') -Destination $DestinationPath -ErrorVariable +err -ErrorAction 0
+            if ($err) {
+                return $FolderLinkResults.UnableToMoveOrigin;
+            }
+        } else {
+            # Delete Origin
+            $null = Remove-Item -Recurse -Force $OriginPath -ErrorVariable +err -ErrorAction 0
+            if ($err) {
+                return $FolderLinkResults.UnableToDeleteOrigin;
+            }
+            # Ensure that an empty directory exists after cleanup
+            $null = New-Item -ItemType Directory -Path $OriginPath
         }
     }
 
