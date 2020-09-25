@@ -5,12 +5,23 @@ $OriginPath = '.\TEMP\origin\'
 $DestinationPath = '.\TEMP\destination\'
 
 function AssertSymbolicLink {
+    param(
+        [bool] $DeleteOriginFiles = $false
+    )
+
     # Create link
     Assert-MockCalled -ModuleName FolderLinks New-Item -ParameterFilter { $Path -eq $OriginPath -and $Value -eq $DestinationPath } -Exactly 1
 
-    # Move origin data
-    Assert-MockCalled -ModuleName FolderLinks Move-Item -ParameterFilter { $Path -eq $($OriginPath + '*') -and $Destination -eq $DestinationPath } -Exactly 1
-    Assert-MockCalled -ModuleName FolderLinks Remove-Item -ParameterFilter { $Path -eq $OriginPath } -Exactly 1
+    if (!$DeleteOriginFiles) {
+        # Move origin data
+        Assert-MockCalled -ModuleName FolderLinks Move-Item -ParameterFilter { $Path -eq $($OriginPath + '*') -and $Destination -eq $DestinationPath } -Exactly 1
+
+        Assert-MockCalled -ModuleName FolderLinks Remove-Item -ParameterFilter { $Path -eq $OriginPath } -Exactly 1
+    } else {
+        # Delete must be called twice (this assert may be repeated, just double checking)
+        Assert-MockCalled -ModuleName FolderLinks Remove-Item -ParameterFilter { $Path -eq $OriginPath } -Exactly 2
+    }
+    
 }
 
 function GetItemMocked {
@@ -89,6 +100,55 @@ Describe 'FolderLinks.LinkFolder Unit Tests' {
             Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 1
 
             AssertSymbolicLink
+        }
+    }
+
+    Context 'When OriginPath exists and DeleteOriginFiles is false' {
+        # Prepare
+        Mock -ModuleName FolderLinks Test-Path { return $Path -eq $OriginPath }
+        Mock -ModuleName FolderLinks Move-Item { }  -Verifiable
+        Mock -ModuleName FolderLinks Remove-Item { return $true }  -Verifiable -ParameterFilter{ $Path -eq $OriginPath}
+        Mock -ModuleName FolderLinks New-Item { } -Verifiable -ParameterFilter{ $Path -eq $DestinationPath -or $Path -eq $OriginPath}
+
+        # Execute
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -DeleteOriginFiles $false
+
+        # Validate
+        It 'returns Success' {
+            Write-Output $result
+            $result.Error | Should Be $false
+        }
+
+        It 'makes calls correctly' {
+            Assert-MockCalled -ModuleName FolderLinks Move-Item -Exactly 1
+            Assert-MockCalled -ModuleName FolderLinks Remove-Item -Exactly 1
+            Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 2
+
+            AssertSymbolicLink
+        }
+    }
+
+    Context 'When OriginPath exists and DeleteOriginFiles is true' {
+        # Prepare
+        Mock -ModuleName FolderLinks Test-Path { return $Path -eq $OriginPath }
+        Mock -ModuleName FolderLinks Move-Item { }
+        Mock -ModuleName FolderLinks Remove-Item { return $true }  -Verifiable -ParameterFilter{ $Path -eq $OriginPath}
+        Mock -ModuleName FolderLinks New-Item { } -Verifiable -ParameterFilter{ $Path -eq $DestinationPath -or $Path -eq $OriginPath}
+
+        # Execute
+        $result = LinkFolder -OriginPath $OriginPath -DestinationPath $DestinationPath -DeleteOriginFiles $true
+
+        # Validate
+        It 'returns Success' {
+            Write-Output $result
+            $result.Error | Should Be $false
+        }
+
+        It 'makes calls correctly' {
+            Assert-MockCalled -ModuleName FolderLinks Remove-Item -Exactly 2
+            Assert-MockCalled -ModuleName FolderLinks New-Item -Exactly 3
+
+            AssertSymbolicLink -DeleteOriginFiles $true
         }
     }
 }
