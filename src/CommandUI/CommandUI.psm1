@@ -49,13 +49,19 @@ function AskCreateLink {
 
 function SayTaskDescription {
     param(
-        [Parameter(Mandatory=$true)][string] $Message
+        [Parameter(Mandatory=$true)][string] $Message,
+        [bool] $DeleteOriginFiles
     )
     Write-Host $('  ')
     Write-Host $('  ')
     Write-Host $('  Task                          ') -ForegroundColor black -BackgroundColor white
     Write-Host $('  ' + $Message)
     Write-Host $('  ')
+
+    if ($DeleteOriginFiles) {
+        Write-Host $(' This task deletes source files.') -ForegroundColor yellow -BackgroundColor black
+        Write-Host $(' Windows Update Files can be deleted safely.') -ForegroundColor yellow -BackgroundColor black
+    }
 }
 
 function SayStep {
