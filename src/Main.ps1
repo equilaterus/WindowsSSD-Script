@@ -22,7 +22,7 @@ if ($task -eq $false) {
 }
 
 foreach ($task in $tasks) {
-    SayTaskDescription -Message $task.Description
+    SayTaskDescription -Message $task.Description -DeleteOriginFiles $task.DeleteOriginFiles
 
     foreach($service in $task.StopServices) {
         SayStep -Message $('stop ' + $service)
