@@ -51,7 +51,7 @@ foreach ($task in $tasks) {
     } else {
         $destinationPath = $($sysDestPath + [Environment]::ExpandEnvironmentVariables($task.DestinationPath))
         if(AskCreateLink -OriginPath $originPath -DestinationPath $destinationPath) {
-            $result = LinkFolder -OriginPath $originPath -DestinationPath $destinationPath
+            $result = LinkFolder -OriginPath $originPath -DestinationPath $destinationPath -DeleteOriginFiles $task.DeleteOriginFiles
             if(!$result.Error) {
                 SaySuccess
             } else {
