@@ -116,6 +116,19 @@ Describe 'CommandUI.Messages Unit tests' {
         }
     }
 
+    Context 'When SayTaskDescription DeleteOriginFiles' {
+        # Prepare
+        Mock -ModuleName CommandUI Write-Host { } -Verifiable
+
+        # Execute
+        SayTaskDescription -Message 'A message' -DeleteOriginFiles $true
+
+        # Validate
+        It 'write host called' {
+            Assert-VerifiableMock
+        }
+    }
+
     Context 'When SaySuccess' {
         # Prepare
         Mock -ModuleName CommandUI Write-Host { } -Verifiable
